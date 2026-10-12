@@ -1,4 +1,4 @@
-# Event-driven webpage update using Azure
+# Event-driven webpage update using Azure backend services
 
 ## Overview
 
@@ -104,8 +104,7 @@ rates-realtime-update/
 ├── index.html
 ├── README.md
 └── screenshots/
-    ├── display.png
-    └── modification.png
+    ├── InterestRatesRealTimeUpdate_FrontEnd.jpeg
 ```
 
 The screenshot files are optional and should be added after capturing the relevant page views. Reference them from this README once they are present.
@@ -119,11 +118,8 @@ For example, after adding the image files under `screenshots/`:
 ```markdown
 ### Rate display
 
-![Rate display](screenshots/display.png)
+![Rate display](screenshots/InterestRatesRealTimeUpdate_FrontEnd.jpeg)
 
-### Rate modification
-
-![Rate modification](screenshots/modification.png)
 ```
 
 ## Current scope
