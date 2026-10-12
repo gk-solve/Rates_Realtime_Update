@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Interest Rates</title>
+
+
+
+  <style>
+
+    * {
+
+      box-sizing: border-box;
+
+    }
+
+
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      max-width: 1000px;
+
+      margin: 40px auto;
+
+      padding: 0 20px;
+
+      color: #243247;
+
+      background: #f5f7fa;
+
+    }
+
+
+
+    .banner {
+
+      background: #145a86;
+
+      color: white;
+
+      padding: 24px;
+
+      border-radius: 10px;
+
+      margin-bottom: 24px;
+
+    }
+
+
+
+    .banner h1 {
+
+      margin: 0 0 8px;
+
+    }
+
+
+
+    .banner p {
+
+      margin: 0;
+
+      opacity: 0.9;
+
+    }
+
+
+
+    .tabs {
+
+      display: flex;
+
+      gap: 8px;
+
+      border-bottom: 2px solid #dce3ea;
+
+      margin-bottom: 20px;
+
+    }
+
+
+
+    .tab {
+
+      border: none;
+
+      background: transparent;
+
+      padding: 12px 20px;
+
+      cursor: pointer;
+
+      font-size: 16px;
+
+      color: #526579;
+
+      border-bottom: 3px solid transparent;
+
+      margin-bottom: -2px;
+
+    }
+
+
+
+    .tab.active {
+
+      color: #145a86;
+
+      font-weight: bold;
+
+      border-bottom-color: #145a86;
+
+    }
+
+
+
+    .panel {
+
+      background: white;
+
+      padding: 22px;
+
+      border-radius: 8px;
+
+      box-shadow: 0 2px 8px #24324712;
+
+    }
+
+
+
+    .panel h2 {
+
+      margin-top: 0;
+
+      color: #145a86;
+
+    }
+
+
+
+    .status {
+
+      color: #526579;
+
+    }
+
+
+
+    .error {
+
+      color: #b42318;
+
+    }
+
+
+
+    .success {
+
+      color: #167647;
+
+    }
+
+
+
+    .connection {
+
+      font-size: 14px;
+
+      margin-bottom: 8px;
+
+    }
+
+
+
+    table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+      margin-top: 20px;
+
+      background: white;
+
+    }
+
+
+
+    th, td {
+
+      padding: 12px;
+
+      border-bottom: 1px solid #dce3ea;
+
+      text-align: left;
+
+    }
+
+
+
+    th {
+
+      background: #e7f0f7;
+
+    }
+
+
+
+    input[type="number"] {
+
+      width: 140px;
+
+      max-width: 100%;
+
+      padding: 9px;
+
+      border: 1px solid #bdc9d5;
+
+      border-radius: 5px;
+
+      font: inherit;
+
+    }
+
+
+
+    .actions {
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 20px;
+
+    }
+
+
+
+    .button {
+
+      border: none;
+
+      border-radius: 5px;
+
+      padding: 11px 20px;
+
+      font-size: 15px;
+
+      cursor: pointer;
+
+    }
+
+
+
+    .button-primary {
+
+      color: white;
+
+      background: #145a86;
+
+    }
+
+
+
+    .button-primary:disabled {
+
+      background: #9aabba;
+
+      cursor: not-allowed;
+
+    }
+
+
+
+    .button-secondary {
+
+      color: #243247;
+
+      background: #e7edf2;
+
+    }
+
+
+
+    .button-secondary:disabled {
+
+      opacity: 0.5;
+
+      cursor: not-allowed;
+
+    }
+
+
+
+    [hidden] {
+
+      display: none !important;
+
+    }
+
+
+
+    @media (max-width: 600px) {
+
+      body {
+
+        margin: 20px auto;
+
+        padding: 0 12px;
+
+      }
+
+
+
+      .panel {
+
+        padding: 14px;
+
+      }
+
+
+
+      th, td {
+
+        padding: 9px 6px;
+
+        font-size: 14px;
+
+      }
+
+
+
+      .tab {
+
+        flex: 1;
+
+        padding: 12px 8px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+  <header class="banner">
+
+    <h1>Interest Rates</h1>
+
+    <p>View and manage interest rates by country</p>
+
+  </header>
+
+
+
+  <nav class="tabs" aria-label="Main navigation">
+
+    <button
+
+      type="button"
+
+      class="tab active"
+
+      id="displayTab"
+
+      aria-selected="true"
+
+      aria-controls="displayPanel"
+
+    >
+
+      Overview
+
+    </button>
+
+
+
+    <button
+
+      type="button"
+
+      class="tab"
+
+      id="editTab"
+
+      aria-selected="false"
+
+      aria-controls="editPanel"
+
+    >
+
+      Edit Rates
+
+    </button>
+
+  </nav>
+
+
+
+  <main>
+
+    <section class="panel" id="displayPanel">
+
+      <h2>Current Rates</h2>
+
+
+
+      <p class="status" id="status">Loading data...</p>
+
+      <p id="lastApiCall">Last API call: waiting</p>
+
+      <p class="connection" id="signalrStatus">
+
+        SignalR: disconnected
+
+      </p>
+
+
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Country</th>
+
+            <th>Rate (%)</th>
+
+            <th>Last Updated</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="rates"></tbody>
+
+      </table>
+
+    </section>
+
+
+
+    <section class="panel" id="editPanel" hidden>
+
+      <h2>Edit Rates</h2>
+
+
+
+      <p class="status" id="editStatus">
+
+        Loading rates...
+
+      </p>
+
+
+
+      <form id="editForm">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Country</th>
+
+              <th>New Rate (%)</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="editRates"></tbody>
+
+        </table>
+
+
+
+        <div class="actions">
+
+          <button
+
+            type="button"
+
+            class="button button-secondary"
+
+            id="cancelButton"
+
+            disabled
+
+          >
+
+            Cancel
+
+          </button>
+
+
+
+          <button
+
+            type="submit"
+
+            class="button button-primary"
+
+            id="confirmButton"
+
+            disabled
+
+          >
+
+            Confirm
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+
+
+
+  <script>
+
+    const apiUrl =
+
+      "https://apim-webapp-realtime-test.azure-api.net/rates/";
+
+
+
+    const NEGOTIATE_URL =
+
+      "https://funcwebapprealtimetest-e6h7fbgjh3eqb9gn.westeurope-01.azurewebsites.net/api/NegotiateSignalR";
+
+
+
+    const displayTab = document.getElementById("displayTab");
+
+    const editTab = document.getElementById("editTab");
+
+    const displayPanel = document.getElementById("displayPanel");
+
+    const editPanel = document.getElementById("editPanel");
+
+
+
+    const statusElement = document.getElementById("status");
+
+    const ratesBody = document.getElementById("rates");
+
+    const editRatesBody = document.getElementById("editRates");
+
+    const editStatus = document.getElementById("editStatus");
+
+    const confirmButton = document.getElementById("confirmButton");
+
+    const cancelButton = document.getElementById("cancelButton");
+
+
+
+    let loadedRates = [];
+
+    let signalrConnection = null;
+
+    let editLoadInProgress = false;
+    let saveInProgress = false;
+
+
+
+    function showTab(tabName) {
+
+      const showDisplay = tabName === "display";
+
+
+
+      displayPanel.hidden = !showDisplay;
+
+      editPanel.hidden = showDisplay;
+
+
+
+      displayTab.classList.toggle("active", showDisplay);
+
+      editTab.classList.toggle("active", !showDisplay);
+
+
+
+      displayTab.setAttribute("aria-selected", String(showDisplay));
+
+      editTab.setAttribute("aria-selected", String(!showDisplay));
+
+
+
+      if (!showDisplay) {
+
+        loadEditRates();
+
+      }
+
+    }
+
+
+
+    displayTab.addEventListener("click", () => showTab("display"));
+
+    editTab.addEventListener("click", () => showTab("edit"));
+
+
+
+    const countryDisplayNames = {
+      "France": "France",
+      "Allemagne": "Germany",
+      "États-Unis": "United States",
+      "Chine": "China",
+      "Suisse": "Switzerland",
+      "Norvège": "Norway"
+    };
+
+    function displayCountryName(country) {
+      return countryDisplayNames[country] || country;
+    }
+
+    function formatDate(value) {
+
+      const date = new Date(value);
+
+
+
+      if (Number.isNaN(date.getTime())) {
+
+        return "Date unavailable";
+
+      }
+
+
+
+      return date.toLocaleString("en-GB", {
+
+        timeZone: "Europe/Paris"
+
+      });
+
+    }
+
+
+
+    function formatRate(value) {
+
+      return Number(value).toLocaleString("en-GB", {
+
+        minimumFractionDigits: 2,
+
+        maximumFractionDigits: 2
+
+      });
+
+    }
+
+
+
+    async function fetchRates() {
+
+      const response = await fetch(apiUrl, {
+
+        cache: "no-store"
+
+      });
+
+
+
+      if (!response.ok) {
+
+        throw new Error("HTTP error " + response.status);
+
+      }
+
+
+
+      const data = await response.json();
+
+
+
+      if (!Array.isArray(data.rates)) {
+
+        throw new Error("Unexpected API response format.");
+
+      }
+
+
+
+      return data.rates;
+
+    }
+
+
+
+    function renderDisplayRates(rates) {
+
+      ratesBody.replaceChildren();
+
+
+
+      rates.forEach(item => {
+
+        const row = document.createElement("tr");
+
+        row.dataset.country = item.country;
+
+
+
+        const countryCell = document.createElement("td");
+
+        const rateCell = document.createElement("td");
+
+        const updatedCell = document.createElement("td");
+
+
+
+        countryCell.textContent = displayCountryName(item.country);
+
+        rateCell.textContent = formatRate(item.rate) + " %";
+
+        updatedCell.textContent = formatDate(item.lastUpdated);
+
+
+
+        row.append(countryCell, rateCell, updatedCell);
+
+        ratesBody.appendChild(row);
+
+      });
+
+    }
+
+
+
+    function applyRateUpdates(changedRates, timestamp) {
+      if (!Array.isArray(changedRates) || changedRates.length === 0) {
+        return;
+      }
+
+      const updatedAt = timestamp || new Date().toISOString();
+
+      changedRates.forEach(change => {
+        const rate = Number(change.rate);
+        const country = change.country;
+        const existing = loadedRates.find(item => item.country === country);
+
+        if (existing) {
+          existing.rate = rate;
+          existing.lastUpdated = change.lastUpdated || updatedAt;
+        }
+
+        const row = Array.from(ratesBody.querySelectorAll("tr"))
+          .find(item => item.dataset.country === country);
+
+        if (row) {
+          row.children[1].textContent = formatRate(rate) + " %";
+          if (row.children[2]) {
+            row.children[2].textContent = formatDate(
+              change.lastUpdated || updatedAt
+            );
+          }
+        }
+      });
+    }
+
+
+    function updateEditButtons() {
+
+      const inputs = editRatesBody.querySelectorAll("input[data-country]");
+
+      let changed = false;
+
+
+
+      inputs.forEach(input => {
+
+        const original = loadedRates.find(
+
+          item => item.country === input.dataset.country
+
+        );
+
+
+
+        if (!original || input.value.trim() === "") {
+
+          changed = true;
+
+          return;
+
+        }
+
+
+
+        if (Number(input.value) !== Number(original.rate)) {
+
+          changed = true;
+
+        }
+
+      });
+
+
+
+      confirmButton.disabled =
+
+        !changed || editLoadInProgress || saveInProgress || loadedRates.length === 0;
+
+
+
+      cancelButton.disabled =
+
+        !changed || editLoadInProgress || saveInProgress;
+
+    }
+
+
+
+    function renderEditRates(rates) {
+
+      editRatesBody.replaceChildren();
+
+
+
+      rates.forEach(item => {
+
+        const row = document.createElement("tr");
+
+        const countryCell = document.createElement("td");
+
+        const inputCell = document.createElement("td");
+
+        const input = document.createElement("input");
+
+
+
+        countryCell.textContent = displayCountryName(item.country);
+
+
+
+        input.type = "number";
+
+        input.step = "0.01";
+
+        input.min = "0";
+
+        input.max = "999.99";
+
+        input.required = true;
+
+        input.value = Number(item.rate).toFixed(2);
+
+        input.dataset.country = item.country;
+
+        input.setAttribute(
+
+          "aria-label",
+
+          "Rate for " + displayCountryName(item.country)
+
+        );
+
+
+
+        input.addEventListener("input", updateEditButtons);
+
+
+
+        inputCell.appendChild(input);
+
+        row.append(countryCell, inputCell);
+
+        editRatesBody.appendChild(row);
+
+      });
+
+
+
+      updateEditButtons();
+
+    }
+
+
+
+    async function loadRates() {
+
+      try {
+
+        const rates = await fetchRates();
+
+
+
+        loadedRates = rates;
+
+        renderDisplayRates(rates);
+
+
+
+        statusElement.textContent =
+
+          "Data loaded: " + rates.length + " countries.";
+
+        statusElement.className = "status";
+
+
+
+        document.getElementById("lastApiCall").textContent =
+
+          "Last successful API call: " +
+
+          new Date().toLocaleString("en-GB", {
+
+            timeZone: "Europe/Paris"
+
+          });
+
+
+
+        // Ne pas écraser les saisies si l'utilisateur est en train
+
+        // de modifier les taux.
+
+        if (editPanel.hidden) {
+
+          return;
+
+        }
+
+
+
+        const hasChanges = !confirmButton.disabled;
+
+
+
+        if (!hasChanges) {
+
+          renderEditRates(rates);
+
+          editStatus.textContent =
+
+            "The latest values have been loaded.";
+
+          editStatus.className = "status";
+
+        }
+
+      } catch (error) {
+
+        statusElement.textContent =
+
+          "Unable to load rates: " + error.message;
+
+        statusElement.className = "error";
+
+      }
+
+    }
+
+
+
+    async function loadEditRates() {
+
+      editLoadInProgress = true;
+
+      confirmButton.disabled = true;
+
+      cancelButton.disabled = true;
+
+
+
+      editStatus.textContent = "Loading rates from the API...";
+
+      editStatus.className = "status";
+
+
+
+      try {
+
+        const rates = await fetchRates();
+
+        loadedRates = rates;
+
+        renderEditRates(rates);
+
+
+
+        editStatus.textContent =
+
+          "Values loaded. Edit the rates you want to change.";
+
+        editStatus.className = "status";
+
+      } catch (error) {
+
+        editStatus.textContent =
+
+          "Unable to load rates: " + error.message;
+
+        editStatus.className = "error";
+
+      } finally {
+
+        editLoadInProgress = false;
+
+        updateEditButtons();
+
+      }
+
+    }
+
+
+
+    cancelButton.addEventListener("click", () => {
+
+      renderEditRates(loadedRates);
+
+
+
+      editStatus.textContent =
+
+        "Changes cancelled. The loaded values have been restored.";
+
+      editStatus.className = "status";
+
+    });
+
+
+
+    document.getElementById("editForm").addEventListener(
+      "submit",
+      async event => {
+        event.preventDefault();
+
+        if (saveInProgress || loadedRates.length === 0) {
+          return;
+        }
+
+        const inputs = Array.from(
+          editRatesBody.querySelectorAll("input[data-country]")
+        );
+
+        if (inputs.length !== loadedRates.length) {
+          editStatus.textContent =
+            "The form is incomplete. Reload the rates before trying again.";
+          editStatus.className = "error";
+          return;
+        }
+
+        const rates = inputs.map(input => ({
+          country: input.dataset.country,
+          rate: Number(input.value)
+        }));
+
+        const invalidInput = inputs.find(input =>
+          !input.checkValidity() ||
+          input.value.trim() === "" ||
+          !Number.isFinite(Number(input.value))
+        );
+
+        if (invalidInput) {
+          invalidInput.reportValidity();
+          editStatus.textContent =
+            "Check the entered rates: values must be between 0 and 999.99.";
+          editStatus.className = "error";
+          return;
+        }
+
+        saveInProgress = true;
+        confirmButton.disabled = true;
+        cancelButton.disabled = true;
+        inputs.forEach(input => { input.disabled = true; });
+
+        editStatus.textContent = "Saving rates...";
+        editStatus.className = "status";
+
+        try {
+          const response = await fetch(apiUrl + "update", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ rates })
+          });
+
+          const result = await response.json().catch(() => null);
+
+          if (!response.ok || !result || result.success !== true) {
+            const message =
+              result && result.message
+                ? result.message
+                : "HTTP error " + response.status;
+            throw new Error(message);
+          }
+
+          // Met à jour l'affichage avec la réponse du POST, sans GET supplémentaire.
+          applyRateUpdates(result.changedRates, new Date().toISOString());
+          renderEditRates(loadedRates);
+
+          editStatus.textContent =
+            result.changedCount === 0
+              ? "No changes detected: the rates are already up to date."
+              : "Successfully saved: " + result.changedCount +
+                " rate(s) changed.";
+          editStatus.className = "success";
+        } catch (error) {
+          editStatus.textContent =
+            "Failed to save: " + error.message;
+          editStatus.className = "error";
+        } finally {
+          saveInProgress = false;
+          editRatesBody
+            .querySelectorAll("input[data-country]")
+            .forEach(input => { input.disabled = false; });
+          updateEditButtons();
+        }
+      }
+    );
+
+
+
+    async function connectSignalR() {
+
+      const signalrStatus = document.getElementById("signalrStatus");
+
+
+
+      try {
+
+        signalrStatus.textContent = "SignalR: connecting...";
+
+
+
+        const response = await fetch(NEGOTIATE_URL, {
+
+          cache: "no-store"
+
+        });
+
+
+
+        if (!response.ok) {
+
+          throw new Error("Negotiation HTTP " + response.status);
+
+        }
+
+
+
+        const connectionInfo = await response.json();
+
+
+
+        signalrConnection = new signalR.HubConnectionBuilder()
+
+          .withUrl(connectionInfo.url, {
+
+            accessTokenFactory: () => connectionInfo.accessToken
+
+          })
+
+          .withAutomaticReconnect()
+
+          .build();
+
+
+
+        signalrConnection.on("rateUpdated", message => {
+          console.log("SignalR event received:", message);
+
+          // Applique directement les taux reçus : aucun GET déclenché par SignalR.
+          if (message && Array.isArray(message.changedRates)) {
+            applyRateUpdates(message.changedRates, message.timestamp);
+          }
+        });
+
+
+
+        signalrConnection.onclose(() => {
+
+          signalrStatus.textContent = "SignalR: disconnected";
+
+        });
+
+
+
+        signalrConnection.onreconnecting(() => {
+
+          signalrStatus.textContent = "SignalR: reconnecting...";
+
+        });
+
+
+
+        signalrConnection.onreconnected(() => {
+
+          signalrStatus.textContent = "SignalR: connected";
+
+          loadRates();
+
+        });
+
+
+
+        await signalrConnection.start();
+
+        signalrStatus.textContent = "SignalR: connected";
+
+      } catch (error) {
+
+        signalrStatus.textContent = "SignalR: connection error";
+
+        console.error("SignalR connection error:", error);
+
+      }
+
+    }
+
+
+
+    loadRates();
+
+
+
+    // Le polling reste activé provisoirement, jusqu'à validation
+
+    // complète du nouveau flux de modification.
+
+    //setInterval(loadRates, 55 * 60 * 1000);
+
+
+
+    connectSignalR();
+
+  </script>
+
+</body>
+
+</html>
