@@ -10,6 +10,9 @@ This repository contains the web page and project documentation. Azure resources
 
 ## Architecture
 
+Front-end URL
+https://webapprealtimersa.z6.web.core.windows.net
+
 ```mermaid
 flowchart TB
     Browser["Browser<br/>index.html"]
@@ -125,3 +128,8 @@ For example, after adding the image files under `screenshots/`:
 ## Current scope
 
 This repository documents the web page and its Azure architecture. It does not currently include Terraform definitions for the Azure infrastructure or an automated deployment workflow. The Azure services remain configured separately in Azure.
+
+## Website sleep mode and recovery
+* Upload index.html to the $web folder within the storage container
+* Turn off/ turn on the Azure function app
+* Website URL (primary endpoint): https://webapprealtimersa.z6.web.core.windows.net/
