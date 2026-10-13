@@ -1,9 +1,5 @@
 # Event-driven webpage update using Azure backend services
 
-## Screenshot
-
-![Event-driven update](Screenshots/InterestRatesRealTimeUpdate_FrontEnd.jpeg)
-
 ## Overview
 
 This project demonstrates an event-driven web page that displays interest rates and updates the displayed values in real time when a rate changes.
@@ -11,6 +7,10 @@ This project demonstrates an event-driven web page that displays interest rates 
 The web page is hosted as a static website in Azure Storage. Azure API Management exposes the HTTP API used by the page. Azure Functions reads and updates the data in Azure SQL Database, while Azure SignalR Service pushes change notifications to connected browsers.
 
 This repository contains the web page and project documentation. Azure resources are provisioned and configured separately; this repository does not currently recreate the infrastructure or deploy the application automatically.
+
+## Screenshot
+
+![Event-driven update](screenshots/InterestRatesRealTimeUpdate_FrontEnd.jpeg)
 
 ## Architecture
 
