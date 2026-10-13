@@ -1,5 +1,9 @@
 # Event-driven webpage update using Azure backend services
 
+## Screenshot
+
+![Event-driven update](Screenshots/InterestRatesRealTimeUpdate_FrontEnd.jpeg)
+
 ## Overview
 
 This project demonstrates an event-driven web page that displays interest rates and updates the displayed values in real time when a rate changes.
