@@ -1,4 +1,4 @@
-# Event-driven webpage update using Azure backend services
+# Event-driven & real time update of a webpage using Azure backend services
 
 ## Overview
 
@@ -7,6 +7,22 @@ This project demonstrates an event-driven web page that displays interest rates 
 The web page is hosted as a static website in Azure Storage. Azure API Management exposes the HTTP API used by the page. Azure Functions reads and updates the data in Azure SQL Database, while Azure SignalR Service pushes change notifications to connected browsers.
 
 This repository contains the web page and project documentation. Azure resources are provisioned and configured separately; this repository does not currently recreate the infrastructure or deploy the application automatically.
+
+## Authors and contributors
+
+| Topic | Sub-topic | Author/Contributor |
+|---|---|---|
+| Project management | JIRA | - |
+| Project management | Versioning with Git | - |
+| Functional design | | gk-solve |
+| Technical architecture design | Pattern choice | gk-solve |
+| Technical architecture design | Components and frameworks | gk-solve |
+| Development | Code writing | ChatGPT |
+| Development | Code comments | ChatGPT |
+| Development | Cloud services set up | gk-solve |
+| Testing | Test environment set up | ChatGPT |
+| Testing | Tests execution | gk-solve |
+| Documentation | README file | ChatGPT + gk-solve |
 
 ## Screenshot
 
