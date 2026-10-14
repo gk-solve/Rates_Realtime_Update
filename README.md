@@ -17,7 +17,7 @@ This repository contains the web page and project documentation. Azure resources
 | Functional design | | gk-solve |
 | Technical architecture design | Pattern choice | gk-solve |
 | Technical architecture design | Components and frameworks | gk-solve |
-| Development | Code writing | ChatGPT |
+| Development | Code writing (HTML/CSS/JS + Powershell) | ChatGPT |
 | Development | Code comments | ChatGPT |
 | Development | Cloud services set up | gk-solve |
 | Testing | Test environment set up | gk-solve |
