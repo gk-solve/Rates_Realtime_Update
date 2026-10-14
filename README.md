@@ -20,7 +20,7 @@ This repository contains the web page and project documentation. Azure resources
 | Development | Code writing | ChatGPT |
 | Development | Code comments | ChatGPT |
 | Development | Cloud services set up | gk-solve |
-| Testing | Test environment set up | ChatGPT |
+| Testing | Test environment set up | gk-solve |
 | Testing | Tests execution | gk-solve |
 | Documentation | README file | ChatGPT + gk-solve |
 
